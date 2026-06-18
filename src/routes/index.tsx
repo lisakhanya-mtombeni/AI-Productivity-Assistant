@@ -12,7 +12,20 @@ import {
   Shield,
   Send,
   AlertTriangle,
+  Flower2,
+  Sparkles,
 } from "lucide-react";
+
+function Blossoms() {
+  return (
+    <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden z-0">
+      <Flower2 className="absolute -top-6 -right-4 text-pink-300/10" size={220} strokeWidth={1} />
+      <Flower2 className="absolute top-1/3 -left-10 text-rose-300/[0.06]" size={180} strokeWidth={1} />
+      <Flower2 className="absolute bottom-8 right-10 text-pink-200/10" size={140} strokeWidth={1} />
+      <Flower2 className="absolute bottom-1/3 left-1/2 text-fuchsia-300/[0.05]" size={110} strokeWidth={1} />
+    </div>
+  );
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -140,14 +153,16 @@ function WorklyApp() {
   const [currentView, setCurrentView] = useState<View>("dashboard");
 
   return (
-    <div className="flex min-h-screen bg-[#0d0e12] text-slate-100">
+    <div className="relative flex min-h-screen bg-[#0d0e12] text-slate-100">
+      <Blossoms />
       {/* Sidebar */}
-      <aside className="w-64 fixed inset-y-0 left-0 bg-[#090a0f] border-r border-white/5 flex flex-col">
-        <div className="px-6 pt-7 pb-8">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-            Workly AI
+      <aside className="w-64 fixed inset-y-0 left-0 bg-[#090a0f] border-r border-white/5 flex flex-col z-20">
+        <div className="px-6 pt-7 pb-5">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-400 via-rose-400 to-fuchsia-500 bg-clip-text text-transparent">
+            🌸 GlowDesk AI
           </h1>
           <p className="text-xs text-slate-500 mt-1">by CAPACITI</p>
+          <div className="mt-4 h-px bg-gradient-to-r from-transparent via-pink-400/40 to-transparent" />
         </div>
         <nav className="flex-1 px-3 space-y-1">
           {NAV.map(({ id, label, icon: Icon }) => {
@@ -158,23 +173,25 @@ function WorklyApp() {
                 onClick={() => setCurrentView(id)}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${
                   active
-                    ? "bg-gradient-to-r from-orange-500/20 to-pink-600/20 text-white border border-orange-500/30"
+                    ? "bg-gradient-to-r from-pink-500/20 to-fuchsia-600/20 text-white border border-pink-400/30"
                     : "text-slate-400 hover:text-white hover:bg-white/5"
                 }`}
               >
                 <Icon size={18} />
                 {label}
+                {active && <Flower2 size={14} className="ml-auto text-pink-300/80" />}
               </button>
             );
           })}
         </nav>
-        <div className="px-6 py-5 text-[10px] tracking-widest text-slate-600 font-semibold">
+        <div className="px-6 py-5 text-[10px] tracking-widest text-slate-600 font-semibold flex items-center gap-2">
+          <Flower2 size={12} className="text-pink-400/50" />
           POWERED BY CAPACITI
         </div>
       </aside>
 
       {/* Main */}
-      <main className="ml-64 flex-1 flex flex-col">
+      <main className="ml-64 flex-1 flex flex-col relative z-10">
         <div className="sticky top-0 z-10 px-8 pt-5 pb-3 bg-[#0d0e12]/95 backdrop-blur">
           <div className="inline-flex items-center gap-2 bg-[#221314] text-[#ff8082] border border-[#3d1d1f] px-4 py-2 rounded-full text-xs font-medium">
             <AlertTriangle size={14} />
@@ -218,7 +235,7 @@ function Dashboard({ onNav }: { onNav: (v: View) => void }) {
         <div className="mt-8 flex flex-wrap gap-3">
           <button
             onClick={() => onNav("email")}
-            className="px-6 py-3 rounded-lg font-semibold bg-gradient-to-r from-orange-500 to-pink-600 text-white hover:opacity-90 transition"
+            className="px-6 py-3 rounded-lg font-semibold bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white hover:opacity-90 transition"
           >
             Start with Email →
           </button>
@@ -234,7 +251,7 @@ function Dashboard({ onNav }: { onNav: (v: View) => void }) {
       <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
         {metrics.map(({ icon: Icon, value, label }) => (
           <div key={label} className="bg-[#16171d] border border-white/5 rounded-2xl p-6">
-            <Icon className="text-orange-400" size={22} />
+            <Icon className="text-pink-400" size={22} />
             <div className="mt-4 text-3xl font-bold">{value}</div>
             <div className="text-sm text-slate-400 mt-1">{label}</div>
           </div>
@@ -248,14 +265,14 @@ function Dashboard({ onNav }: { onNav: (v: View) => void }) {
             <button
               key={id}
               onClick={() => onNav(id)}
-              className="text-left bg-[#16171d] border border-white/5 rounded-2xl p-6 hover:border-orange-500/40 hover:bg-[#1a1b22] transition group"
+              className="text-left bg-[#16171d] border border-white/5 rounded-2xl p-6 hover:border-pink-400/50 hover:bg-[#1a1b22] transition group"
             >
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-orange-500/20 to-pink-600/20 flex items-center justify-center mb-4">
-                <Icon className="text-orange-400" size={20} />
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-pink-500/20 to-fuchsia-600/20 flex items-center justify-center mb-4">
+                <Icon className="text-pink-400" size={20} />
               </div>
               <div className="font-semibold text-lg">{title}</div>
               <div className="text-sm text-slate-400 mt-1">{desc}</div>
-              <div className="mt-4 text-sm text-orange-400 opacity-0 group-hover:opacity-100 transition">
+              <div className="mt-4 text-sm text-pink-400 opacity-0 group-hover:opacity-100 transition">
                 Open →
               </div>
             </button>
@@ -269,8 +286,14 @@ function Dashboard({ onNav }: { onNav: (v: View) => void }) {
 function SectionHeader({ title, subtitle }: { title: string; subtitle: string }) {
   return (
     <div className="mb-6">
-      <h2 className="text-3xl font-bold">{title}</h2>
+      <div className="flex items-center gap-2 text-pink-300/80 text-xs font-semibold tracking-widest uppercase">
+        <Sparkles size={14} className="text-pink-300" />
+        <Flower2 size={14} className="text-rose-300" />
+        <span>GlowDesk Studio</span>
+      </div>
+      <h2 className="mt-2 text-3xl font-bold bg-gradient-to-r from-white via-pink-100 to-rose-200 bg-clip-text text-transparent">{title}</h2>
       <p className="text-slate-400 mt-1">{subtitle}</p>
+      <div className="mt-3 h-px w-24 bg-gradient-to-r from-pink-400/60 to-transparent" />
     </div>
   );
 }
@@ -285,7 +308,7 @@ function Editable({ html, placeholder }: { html: string; placeholder?: string })
       ref={ref}
       contentEditable
       suppressContentEditableWarning
-      className="whitespace-pre-wrap text-slate-200 text-sm leading-relaxed outline-none min-h-[300px] focus:ring-2 focus:ring-orange-500/30 rounded-md p-1"
+      className="whitespace-pre-wrap text-slate-200 text-sm leading-relaxed outline-none min-h-[300px] focus:ring-2 focus:ring-pink-400/40 rounded-md p-1"
       data-placeholder={placeholder}
     />
   );
@@ -296,7 +319,7 @@ function EmailView() {
   const [output, setOutput] = useState("");
   return (
     <div className="max-w-6xl mx-auto">
-      <SectionHeader title="Smart Email Generator" subtitle="Draft a professional email in seconds." />
+      <SectionHeader title="✨ 💐 Smart Email Generator" subtitle="Draft a professional email in seconds." />
       <div className="grid lg:grid-cols-2 gap-6">
         <div className="bg-[#16171d] border border-white/5 rounded-2xl p-6 space-y-5">
           <div>
@@ -304,14 +327,14 @@ function EmailView() {
             <textarea
               placeholder="Describe your email context..."
               rows={5}
-              className="mt-2 w-full bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-orange-500/50"
+              className="mt-2 w-full bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-pink-400/60"
             />
           </div>
           <div>
             <label className="text-sm font-medium text-slate-300">Recipient / Context</label>
             <input
               placeholder="e.g., Sarah (Project Manager)"
-              className="mt-2 w-full bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-orange-500/50"
+              className="mt-2 w-full bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-pink-400/60"
             />
           </div>
           <div>
@@ -323,7 +346,7 @@ function EmailView() {
                   onClick={() => setTone(t)}
                   className={`py-2.5 rounded-lg text-sm font-medium transition ${
                     tone === t
-                      ? "bg-gradient-to-r from-orange-500 to-pink-600 text-white"
+                      ? "bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white"
                       : "bg-[#0d0e12] border border-white/10 text-slate-300 hover:border-white/20"
                   }`}
                 >
@@ -334,7 +357,7 @@ function EmailView() {
           </div>
           <button
             onClick={() => setOutput(EMAIL_TEXT[tone])}
-            className="w-full py-3 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-semibold rounded-lg hover:opacity-90"
+            className="w-full py-3 bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white font-semibold rounded-lg hover:opacity-90"
           >
             Generate Professional Email
           </button>
@@ -375,11 +398,11 @@ function GenericTool({
           <label className="text-sm font-medium text-slate-300">{inputLabel}</label>
           <textarea
             rows={12}
-            className="w-full bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-orange-500/50"
+            className="w-full bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-pink-400/60"
           />
           <button
             onClick={() => setOutput(outputText)}
-            className="w-full py-3 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-semibold rounded-lg hover:opacity-90"
+            className="w-full py-3 bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white font-semibold rounded-lg hover:opacity-90"
           >
             {buttonLabel}
           </button>
@@ -399,7 +422,7 @@ function GenericTool({
 function NotesView() {
   return (
     <GenericTool
-      title="Meeting Notes Summarizer"
+      title="✨ 📋 Meeting Notes Summarizer"
       subtitle="Paste your raw notes and extract action items instantly."
       inputLabel="Paste your meeting notes"
       buttonLabel="Summarize & Extract Action Items"
@@ -412,7 +435,7 @@ function NotesView() {
 function TasksView() {
   return (
     <GenericTool
-      title="AI Task Planner"
+      title="✨ 🗂️ AI Task Planner"
       subtitle="Sort your checklist into a strategic priority matrix."
       inputLabel="Paste a quick checklist"
       buttonLabel="Optimize & Sort Priority Matrix"
@@ -426,17 +449,17 @@ function ResearchView() {
   const [output, setOutput] = useState("");
   return (
     <div className="max-w-6xl mx-auto">
-      <SectionHeader title="AI Research Assistant" subtitle="Compile executive-ready briefs in one click." />
+      <SectionHeader title="✨ 🔍 AI Research Assistant" subtitle="Compile executive-ready briefs in one click." />
       <div className="bg-[#16171d] border border-white/5 rounded-2xl p-6 space-y-4 mb-6">
         <label className="text-sm font-medium text-slate-300">Enter research topic or URL</label>
         <div className="flex gap-3">
           <input
             placeholder="e.g., data privacy compliance"
-            className="flex-1 bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-orange-500/50"
+            className="flex-1 bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-pink-400/60"
           />
           <button
             onClick={() => setOutput(RESEARCH_TEXT)}
-            className="px-6 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-semibold rounded-lg hover:opacity-90"
+            className="px-6 bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white font-semibold rounded-lg hover:opacity-90"
           >
             Compile Research Brief
           </button>
@@ -477,7 +500,7 @@ function ChatView() {
 
   return (
     <div className="max-w-3xl mx-auto flex flex-col h-[calc(100vh-180px)]">
-      <SectionHeader title="AI Chat" subtitle="Talk through your workload with Workly AI." />
+      <SectionHeader title="✨ 💬 AI Chat" subtitle="Talk through your workload with Workly AI." />
       <div ref={scrollRef} className="flex-1 bg-[#16171d] border border-white/5 rounded-2xl p-6 overflow-y-auto space-y-4">
         {messages.length === 0 && (
           <div className="text-center text-slate-500 mt-20 text-sm">Start a conversation with Workly AI.</div>
@@ -488,8 +511,8 @@ function ChatView() {
               <div className="bg-white/10 text-slate-100 px-4 py-3 rounded-2xl rounded-br-sm max-w-[75%] text-sm">{m.text}</div>
             )}
             {m.role === "ai" && (
-              <div className="bg-gradient-to-br from-orange-500/15 to-pink-600/15 border border-orange-500/20 text-slate-100 px-4 py-3 rounded-2xl rounded-bl-sm max-w-[80%] text-sm leading-relaxed">
-                <div className="text-xs font-semibold text-orange-400 mb-1">Workly AI</div>
+              <div className="bg-gradient-to-br from-pink-500/15 to-fuchsia-600/15 border border-pink-500/20 text-slate-100 px-4 py-3 rounded-2xl rounded-bl-sm max-w-[80%] text-sm leading-relaxed">
+                <div className="text-xs font-semibold text-pink-400 mb-1">Workly AI</div>
                 {m.text}
               </div>
             )}
@@ -508,11 +531,11 @@ function ChatView() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message..."
-          className="flex-1 bg-[#16171d] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-orange-500/50"
+          className="flex-1 bg-[#16171d] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-pink-400/60"
         />
         <button
           type="submit"
-          className="px-5 bg-gradient-to-r from-orange-500 to-pink-600 text-white rounded-lg hover:opacity-90 flex items-center gap-2"
+          className="px-5 bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white rounded-lg hover:opacity-90 flex items-center gap-2"
         >
           <Send size={16} /> Send
         </button>
