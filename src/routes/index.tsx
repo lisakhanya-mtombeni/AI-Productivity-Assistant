@@ -319,7 +319,7 @@ function EmailView() {
   const [output, setOutput] = useState("");
   return (
     <div className="max-w-6xl mx-auto">
-      <SectionHeader title="Smart Email Generator" subtitle="Draft a professional email in seconds." />
+      <SectionHeader title="✨ 💐 Smart Email Generator" subtitle="Draft a professional email in seconds." />
       <div className="grid lg:grid-cols-2 gap-6">
         <div className="bg-[#16171d] border border-white/5 rounded-2xl p-6 space-y-5">
           <div>
@@ -422,7 +422,7 @@ function GenericTool({
 function NotesView() {
   return (
     <GenericTool
-      title="Meeting Notes Summarizer"
+      title="✨ 📋 Meeting Notes Summarizer"
       subtitle="Paste your raw notes and extract action items instantly."
       inputLabel="Paste your meeting notes"
       buttonLabel="Summarize & Extract Action Items"
@@ -435,7 +435,7 @@ function NotesView() {
 function TasksView() {
   return (
     <GenericTool
-      title="AI Task Planner"
+      title="✨ 🗂️ AI Task Planner"
       subtitle="Sort your checklist into a strategic priority matrix."
       inputLabel="Paste a quick checklist"
       buttonLabel="Optimize & Sort Priority Matrix"
@@ -449,7 +449,7 @@ function ResearchView() {
   const [output, setOutput] = useState("");
   return (
     <div className="max-w-6xl mx-auto">
-      <SectionHeader title="AI Research Assistant" subtitle="Compile executive-ready briefs in one click." />
+      <SectionHeader title="✨ 🔍 AI Research Assistant" subtitle="Compile executive-ready briefs in one click." />
       <div className="bg-[#16171d] border border-white/5 rounded-2xl p-6 space-y-4 mb-6">
         <label className="text-sm font-medium text-slate-300">Enter research topic or URL</label>
         <div className="flex gap-3">
@@ -500,7 +500,7 @@ function ChatView() {
 
   return (
     <div className="max-w-3xl mx-auto flex flex-col h-[calc(100vh-180px)]">
-      <SectionHeader title="AI Chat" subtitle="Talk through your workload with Workly AI." />
+      <SectionHeader title="✨ 💬 AI Chat" subtitle="Talk through your workload with Workly AI." />
       <div ref={scrollRef} className="flex-1 bg-[#16171d] border border-white/5 rounded-2xl p-6 overflow-y-auto space-y-4">
         {messages.length === 0 && (
           <div className="text-center text-slate-500 mt-20 text-sm">Start a conversation with Workly AI.</div>
