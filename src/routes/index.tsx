@@ -153,14 +153,16 @@ function WorklyApp() {
   const [currentView, setCurrentView] = useState<View>("dashboard");
 
   return (
-    <div className="flex min-h-screen bg-[#0d0e12] text-slate-100">
+    <div className="relative flex min-h-screen bg-[#0d0e12] text-slate-100">
+      <Blossoms />
       {/* Sidebar */}
-      <aside className="w-64 fixed inset-y-0 left-0 bg-[#090a0f] border-r border-white/5 flex flex-col">
-        <div className="px-6 pt-7 pb-8">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-            Workly AI
+      <aside className="w-64 fixed inset-y-0 left-0 bg-[#090a0f] border-r border-white/5 flex flex-col z-20">
+        <div className="px-6 pt-7 pb-5">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-400 via-rose-400 to-fuchsia-500 bg-clip-text text-transparent">
+            🌸 GlowDesk AI
           </h1>
           <p className="text-xs text-slate-500 mt-1">by CAPACITI</p>
+          <div className="mt-4 h-px bg-gradient-to-r from-transparent via-pink-400/40 to-transparent" />
         </div>
         <nav className="flex-1 px-3 space-y-1">
           {NAV.map(({ id, label, icon: Icon }) => {
@@ -171,23 +173,25 @@ function WorklyApp() {
                 onClick={() => setCurrentView(id)}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${
                   active
-                    ? "bg-gradient-to-r from-orange-500/20 to-pink-600/20 text-white border border-orange-500/30"
+                    ? "bg-gradient-to-r from-pink-500/20 to-fuchsia-600/20 text-white border border-pink-400/30"
                     : "text-slate-400 hover:text-white hover:bg-white/5"
                 }`}
               >
                 <Icon size={18} />
                 {label}
+                {active && <Flower2 size={14} className="ml-auto text-pink-300/80" />}
               </button>
             );
           })}
         </nav>
-        <div className="px-6 py-5 text-[10px] tracking-widest text-slate-600 font-semibold">
+        <div className="px-6 py-5 text-[10px] tracking-widest text-slate-600 font-semibold flex items-center gap-2">
+          <Flower2 size={12} className="text-pink-400/50" />
           POWERED BY CAPACITI
         </div>
       </aside>
 
       {/* Main */}
-      <main className="ml-64 flex-1 flex flex-col">
+      <main className="ml-64 flex-1 flex flex-col relative z-10">
         <div className="sticky top-0 z-10 px-8 pt-5 pb-3 bg-[#0d0e12]/95 backdrop-blur">
           <div className="inline-flex items-center gap-2 bg-[#221314] text-[#ff8082] border border-[#3d1d1f] px-4 py-2 rounded-full text-xs font-medium">
             <AlertTriangle size={14} />
