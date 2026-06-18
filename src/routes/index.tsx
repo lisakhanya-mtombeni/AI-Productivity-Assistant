@@ -286,8 +286,14 @@ function Dashboard({ onNav }: { onNav: (v: View) => void }) {
 function SectionHeader({ title, subtitle }: { title: string; subtitle: string }) {
   return (
     <div className="mb-6">
-      <h2 className="text-3xl font-bold">{title}</h2>
+      <div className="flex items-center gap-2 text-pink-300/80 text-xs font-semibold tracking-widest uppercase">
+        <Sparkles size={14} className="text-pink-300" />
+        <Flower2 size={14} className="text-rose-300" />
+        <span>GlowDesk Studio</span>
+      </div>
+      <h2 className="mt-2 text-3xl font-bold bg-gradient-to-r from-white via-pink-100 to-rose-200 bg-clip-text text-transparent">{title}</h2>
       <p className="text-slate-400 mt-1">{subtitle}</p>
+      <div className="mt-3 h-px w-24 bg-gradient-to-r from-pink-400/60 to-transparent" />
     </div>
   );
 }
