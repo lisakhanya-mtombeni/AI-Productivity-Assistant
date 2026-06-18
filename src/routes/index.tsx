@@ -235,7 +235,7 @@ function Dashboard({ onNav }: { onNav: (v: View) => void }) {
         <div className="mt-8 flex flex-wrap gap-3">
           <button
             onClick={() => onNav("email")}
-            className="px-6 py-3 rounded-lg font-semibold bg-gradient-to-r from-orange-500 to-pink-600 text-white hover:opacity-90 transition"
+            className="px-6 py-3 rounded-lg font-semibold bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white hover:opacity-90 transition"
           >
             Start with Email →
           </button>
@@ -251,7 +251,7 @@ function Dashboard({ onNav }: { onNav: (v: View) => void }) {
       <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
         {metrics.map(({ icon: Icon, value, label }) => (
           <div key={label} className="bg-[#16171d] border border-white/5 rounded-2xl p-6">
-            <Icon className="text-orange-400" size={22} />
+            <Icon className="text-pink-400" size={22} />
             <div className="mt-4 text-3xl font-bold">{value}</div>
             <div className="text-sm text-slate-400 mt-1">{label}</div>
           </div>
@@ -265,14 +265,14 @@ function Dashboard({ onNav }: { onNav: (v: View) => void }) {
             <button
               key={id}
               onClick={() => onNav(id)}
-              className="text-left bg-[#16171d] border border-white/5 rounded-2xl p-6 hover:border-orange-500/40 hover:bg-[#1a1b22] transition group"
+              className="text-left bg-[#16171d] border border-white/5 rounded-2xl p-6 hover:border-pink-400/50 hover:bg-[#1a1b22] transition group"
             >
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-orange-500/20 to-pink-600/20 flex items-center justify-center mb-4">
-                <Icon className="text-orange-400" size={20} />
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-pink-500/20 to-fuchsia-600/20 flex items-center justify-center mb-4">
+                <Icon className="text-pink-400" size={20} />
               </div>
               <div className="font-semibold text-lg">{title}</div>
               <div className="text-sm text-slate-400 mt-1">{desc}</div>
-              <div className="mt-4 text-sm text-orange-400 opacity-0 group-hover:opacity-100 transition">
+              <div className="mt-4 text-sm text-pink-400 opacity-0 group-hover:opacity-100 transition">
                 Open →
               </div>
             </button>
@@ -308,7 +308,7 @@ function Editable({ html, placeholder }: { html: string; placeholder?: string })
       ref={ref}
       contentEditable
       suppressContentEditableWarning
-      className="whitespace-pre-wrap text-slate-200 text-sm leading-relaxed outline-none min-h-[300px] focus:ring-2 focus:ring-orange-500/30 rounded-md p-1"
+      className="whitespace-pre-wrap text-slate-200 text-sm leading-relaxed outline-none min-h-[300px] focus:ring-2 focus:ring-pink-400/40 rounded-md p-1"
       data-placeholder={placeholder}
     />
   );
@@ -327,14 +327,14 @@ function EmailView() {
             <textarea
               placeholder="Describe your email context..."
               rows={5}
-              className="mt-2 w-full bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-orange-500/50"
+              className="mt-2 w-full bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-pink-400/60"
             />
           </div>
           <div>
             <label className="text-sm font-medium text-slate-300">Recipient / Context</label>
             <input
               placeholder="e.g., Sarah (Project Manager)"
-              className="mt-2 w-full bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-orange-500/50"
+              className="mt-2 w-full bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-pink-400/60"
             />
           </div>
           <div>
@@ -346,7 +346,7 @@ function EmailView() {
                   onClick={() => setTone(t)}
                   className={`py-2.5 rounded-lg text-sm font-medium transition ${
                     tone === t
-                      ? "bg-gradient-to-r from-orange-500 to-pink-600 text-white"
+                      ? "bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white"
                       : "bg-[#0d0e12] border border-white/10 text-slate-300 hover:border-white/20"
                   }`}
                 >
@@ -357,7 +357,7 @@ function EmailView() {
           </div>
           <button
             onClick={() => setOutput(EMAIL_TEXT[tone])}
-            className="w-full py-3 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-semibold rounded-lg hover:opacity-90"
+            className="w-full py-3 bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white font-semibold rounded-lg hover:opacity-90"
           >
             Generate Professional Email
           </button>
@@ -398,11 +398,11 @@ function GenericTool({
           <label className="text-sm font-medium text-slate-300">{inputLabel}</label>
           <textarea
             rows={12}
-            className="w-full bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-orange-500/50"
+            className="w-full bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-pink-400/60"
           />
           <button
             onClick={() => setOutput(outputText)}
-            className="w-full py-3 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-semibold rounded-lg hover:opacity-90"
+            className="w-full py-3 bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white font-semibold rounded-lg hover:opacity-90"
           >
             {buttonLabel}
           </button>
@@ -455,11 +455,11 @@ function ResearchView() {
         <div className="flex gap-3">
           <input
             placeholder="e.g., data privacy compliance"
-            className="flex-1 bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-orange-500/50"
+            className="flex-1 bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-pink-400/60"
           />
           <button
             onClick={() => setOutput(RESEARCH_TEXT)}
-            className="px-6 bg-gradient-to-r from-orange-500 to-pink-600 text-white font-semibold rounded-lg hover:opacity-90"
+            className="px-6 bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white font-semibold rounded-lg hover:opacity-90"
           >
             Compile Research Brief
           </button>
@@ -511,8 +511,8 @@ function ChatView() {
               <div className="bg-white/10 text-slate-100 px-4 py-3 rounded-2xl rounded-br-sm max-w-[75%] text-sm">{m.text}</div>
             )}
             {m.role === "ai" && (
-              <div className="bg-gradient-to-br from-orange-500/15 to-pink-600/15 border border-orange-500/20 text-slate-100 px-4 py-3 rounded-2xl rounded-bl-sm max-w-[80%] text-sm leading-relaxed">
-                <div className="text-xs font-semibold text-orange-400 mb-1">Workly AI</div>
+              <div className="bg-gradient-to-br from-pink-500/15 to-fuchsia-600/15 border border-pink-500/20 text-slate-100 px-4 py-3 rounded-2xl rounded-bl-sm max-w-[80%] text-sm leading-relaxed">
+                <div className="text-xs font-semibold text-pink-400 mb-1">Workly AI</div>
                 {m.text}
               </div>
             )}
@@ -531,11 +531,11 @@ function ChatView() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message..."
-          className="flex-1 bg-[#16171d] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-orange-500/50"
+          className="flex-1 bg-[#16171d] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-pink-400/60"
         />
         <button
           type="submit"
-          className="px-5 bg-gradient-to-r from-orange-500 to-pink-600 text-white rounded-lg hover:opacity-90 flex items-center gap-2"
+          className="px-5 bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white rounded-lg hover:opacity-90 flex items-center gap-2"
         >
           <Send size={16} /> Send
         </button>
