@@ -12,7 +12,20 @@ import {
   Shield,
   Send,
   AlertTriangle,
+  Flower2,
+  Sparkles,
 } from "lucide-react";
+
+function Blossoms() {
+  return (
+    <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden z-0">
+      <Flower2 className="absolute -top-6 -right-4 text-pink-300/10" size={220} strokeWidth={1} />
+      <Flower2 className="absolute top-1/3 -left-10 text-rose-300/[0.06]" size={180} strokeWidth={1} />
+      <Flower2 className="absolute bottom-8 right-10 text-pink-200/10" size={140} strokeWidth={1} />
+      <Flower2 className="absolute bottom-1/3 left-1/2 text-fuchsia-300/[0.05]" size={110} strokeWidth={1} />
+    </div>
+  );
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
