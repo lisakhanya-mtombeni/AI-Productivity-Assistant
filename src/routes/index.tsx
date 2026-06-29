@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useState, useRef, useEffect } from "react";
 import {
   LayoutDashboard,
@@ -16,6 +17,8 @@ import {
   Sparkles,
   Trash2,
 } from "lucide-react";
+
+import { generateEmailDraft } from "@/lib/email.functions";
 
 function Blossoms() {
   return (
@@ -320,60 +323,32 @@ function EmailView() {
   const [output, setOutput] = useState("");
   const [context, setContext] = useState("");
   const [recipient, setRecipient] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
   const editableKey = useRef(0);
   const [resetKey, setResetKey] = useState(0);
+  const generateEmail = useServerFn(generateEmailDraft);
 
-  // Build the email directly from the user's actual inputs. No hardcoded
-  // templates, no placeholder fallbacks — the recipient, subject and body
-  // are derived 1:1 from what the user typed. Tone only controls the
-  // surrounding salutation, framing sentence and sign-off.
-  const generate = () => {
+  const generate = async () => {
     const userContext = context.trim();
     if (!userContext) {
       setOutput("⚠️ Please describe what this email is about before generating.");
       return;
     }
 
-    // Derive a recipient name (strip role in parentheses, e.g. "Sarah (PM)" → "Sarah").
-    const rawRecipient = recipient.trim();
-    const recipientName = rawRecipient ? rawRecipient.replace(/\s*\(.*?\)\s*/g, "").trim() : "";
-
-    // Derive a subject line from the first sentence / line of the user's context.
-    const firstLine = userContext.split(/[\n.!?]/)[0].trim();
-    const subjectCore = firstLine.length > 0 ? firstLine : userContext.slice(0, 80);
-    const subject = subjectCore.charAt(0).toUpperCase() + subjectCore.slice(1);
-
-    const toneFrames: Record<Tone, { greeting: (n: string) => string; opener: string; closer: string; signoff: string }> = {
-      Formal: {
-        greeting: (n) => (n ? `Dear ${n},` : "Dear Sir/Madam,"),
-        opener: "I hope this message finds you well. I am writing to you regarding the following matter:",
-        closer: "Please let me know if you require any further information. I would appreciate your response at your earliest convenience.",
-        signoff: "Kind regards,\n\n[Your Name]",
-      },
-      Friendly: {
-        greeting: (n) => (n ? `Hi ${n},` : "Hi there,"),
-        opener: "Hope you're doing well! Just wanted to reach out about the following:",
-        closer: "Let me know what you think whenever you get a chance — happy to chat more about it!",
-        signoff: "Thanks so much,\n\n[Your Name]",
-      },
-      Persuasive: {
-        greeting: (n) => (n ? `Hello ${n},` : "Hello,"),
-        opener: "I'm reaching out because I believe this is something genuinely worth your attention:",
-        closer: "I'd love to hear your thoughts — even a quick reply would mean a lot, and I'm confident this is worth exploring together.",
-        signoff: "Warm regards,\n\n[Your Name]",
-      },
-    };
-
-    const f = toneFrames[tone];
-    const email = `Subject: ${subject}\n\n${f.greeting(recipientName)}\n\n${f.opener}\n\n${userContext}\n\n${f.closer}\n\n${f.signoff}`;
-    setOutput(email);
+    setIsGenerating(true);
+    setOutput("✨ Drafting a custom email with GlowDesk AI...");
+    try {
+      const result = await generateEmail({ data: { context: userContext, recipient, tone } });
+      setOutput(result.draft);
+    } catch (error) {
+      setOutput(error instanceof Error ? `⚠️ ${error.message}` : "⚠️ Email generation failed. Please try again.");
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleClear = () => {
     setOutput("");
-    setContext("");
-    setRecipient("");
-    setTone("Formal");
     editableKey.current += 1;
     setResetKey((k) => k + 1);
   };
@@ -422,9 +397,10 @@ function EmailView() {
           </div>
           <button
             onClick={generate}
-            className="w-full py-3 bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white font-semibold rounded-lg hover:opacity-90"
+            disabled={isGenerating}
+            className="w-full py-3 bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white font-semibold rounded-lg hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Generate Professional Email
+            {isGenerating ? "Drafting with AI..." : "Generate Professional Email"}
           </button>
         </div>
         <div className="bg-[#16171d] border border-white/5 rounded-2xl p-6">
@@ -435,11 +411,11 @@ function EmailView() {
               <button
                 onClick={handleClear}
                 title="Clear draft and reset form"
-                aria-label="Clear draft"
+                aria-label="Delete generated draft"
                 className="group inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-pink-400/20 bg-gradient-to-br from-pink-500/10 to-fuchsia-600/10 text-pink-300 hover:text-white hover:border-pink-400/50 hover:from-pink-500/25 hover:to-fuchsia-600/25 transition"
               >
                 <Trash2 size={14} strokeWidth={1.75} />
-                <span className="text-xs font-medium">Clear</span>
+                <span className="text-xs font-medium">Delete</span>
               </button>
             </div>
           </div>
