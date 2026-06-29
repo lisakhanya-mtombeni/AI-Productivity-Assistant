@@ -318,6 +318,34 @@ function Editable({ html, placeholder }: { html: string; placeholder?: string })
 function EmailView() {
   const [tone, setTone] = useState<Tone>("Formal");
   const [output, setOutput] = useState("");
+  const [context, setContext] = useState("");
+  const [recipient, setRecipient] = useState("");
+  const editableKey = useRef(0);
+  const [resetKey, setResetKey] = useState(0);
+
+  // Strict tone interpreter: each selected tone maps 1:1 to its dedicated
+  // text block. No fuzzy matching, no fallback — Formal → Formal block,
+  // Friendly → Friendly block, Persuasive → Persuasive block.
+  const generate = () => {
+    const STRICT_TONE_MAP: Record<Tone, string> = {
+      Formal: EMAIL_TEXT.Formal,       // professional, polished, corporate register
+      Friendly: EMAIL_TEXT.Friendly,   // casual, warm, no corporate jargon
+      Persuasive: EMAIL_TEXT.Persuasive,
+    };
+    const selected = STRICT_TONE_MAP[tone];
+    if (!selected) return;
+    setOutput(selected);
+  };
+
+  const handleClear = () => {
+    setOutput("");
+    setContext("");
+    setRecipient("");
+    setTone("Formal");
+    editableKey.current += 1;
+    setResetKey((k) => k + 1);
+  };
+
   return (
     <div className="max-w-6xl mx-auto">
       <SectionHeader title="✨ 💐 Smart Email Generator" subtitle="Draft a professional email in seconds." />
@@ -326,6 +354,8 @@ function EmailView() {
           <div>
             <label className="text-sm font-medium text-slate-300">What is this email about?</label>
             <textarea
+              value={context}
+              onChange={(e) => setContext(e.target.value)}
               placeholder="Describe your email context..."
               rows={5}
               className="mt-2 w-full bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-pink-400/60"
@@ -334,6 +364,8 @@ function EmailView() {
           <div>
             <label className="text-sm font-medium text-slate-300">Recipient / Context</label>
             <input
+              value={recipient}
+              onChange={(e) => setRecipient(e.target.value)}
               placeholder="e.g., Sarah (Project Manager)"
               className="mt-2 w-full bg-[#0d0e12] border border-white/10 rounded-lg p-3 text-sm outline-none focus:border-pink-400/60"
             />
@@ -357,7 +389,7 @@ function EmailView() {
             </div>
           </div>
           <button
-            onClick={() => setOutput(EMAIL_TEXT[tone])}
+            onClick={generate}
             className="w-full py-3 bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white font-semibold rounded-lg hover:opacity-90"
           >
             Generate Professional Email
@@ -366,9 +398,20 @@ function EmailView() {
         <div className="bg-[#16171d] border border-white/5 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold">Generated Draft</h3>
-            <span className="text-xs text-slate-500">Editable</span>
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-slate-500">Editable</span>
+              <button
+                onClick={handleClear}
+                title="Clear draft and reset form"
+                aria-label="Clear draft"
+                className="group inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-pink-400/20 bg-gradient-to-br from-pink-500/10 to-fuchsia-600/10 text-pink-300 hover:text-white hover:border-pink-400/50 hover:from-pink-500/25 hover:to-fuchsia-600/25 transition"
+              >
+                <Trash2 size={14} strokeWidth={1.75} />
+                <span className="text-xs font-medium">Clear</span>
+              </button>
+            </div>
           </div>
-          <Editable html={output} placeholder="Your draft will appear here..." />
+          <Editable key={resetKey} html={output} placeholder="Your draft will appear here..." />
         </div>
       </div>
     </div>
