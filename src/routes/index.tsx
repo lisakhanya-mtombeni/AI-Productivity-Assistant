@@ -14,6 +14,7 @@ import {
   AlertTriangle,
   Flower2,
   Sparkles,
+  Trash2,
 } from "lucide-react";
 
 function Blossoms() {
