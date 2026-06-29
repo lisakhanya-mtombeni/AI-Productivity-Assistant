@@ -323,18 +323,50 @@ function EmailView() {
   const editableKey = useRef(0);
   const [resetKey, setResetKey] = useState(0);
 
-  // Strict tone interpreter: each selected tone maps 1:1 to its dedicated
-  // text block. No fuzzy matching, no fallback — Formal → Formal block,
-  // Friendly → Friendly block, Persuasive → Persuasive block.
+  // Build the email directly from the user's actual inputs. No hardcoded
+  // templates, no placeholder fallbacks — the recipient, subject and body
+  // are derived 1:1 from what the user typed. Tone only controls the
+  // surrounding salutation, framing sentence and sign-off.
   const generate = () => {
-    const STRICT_TONE_MAP: Record<Tone, string> = {
-      Formal: EMAIL_TEXT.Formal,       // professional, polished, corporate register
-      Friendly: EMAIL_TEXT.Friendly,   // casual, warm, no corporate jargon
-      Persuasive: EMAIL_TEXT.Persuasive,
+    const userContext = context.trim();
+    if (!userContext) {
+      setOutput("⚠️ Please describe what this email is about before generating.");
+      return;
+    }
+
+    // Derive a recipient name (strip role in parentheses, e.g. "Sarah (PM)" → "Sarah").
+    const rawRecipient = recipient.trim();
+    const recipientName = rawRecipient ? rawRecipient.replace(/\s*\(.*?\)\s*/g, "").trim() : "";
+
+    // Derive a subject line from the first sentence / line of the user's context.
+    const firstLine = userContext.split(/[\n.!?]/)[0].trim();
+    const subjectCore = firstLine.length > 0 ? firstLine : userContext.slice(0, 80);
+    const subject = subjectCore.charAt(0).toUpperCase() + subjectCore.slice(1);
+
+    const toneFrames: Record<Tone, { greeting: (n: string) => string; opener: string; closer: string; signoff: string }> = {
+      Formal: {
+        greeting: (n) => (n ? `Dear ${n},` : "Dear Sir/Madam,"),
+        opener: "I hope this message finds you well. I am writing to you regarding the following matter:",
+        closer: "Please let me know if you require any further information. I would appreciate your response at your earliest convenience.",
+        signoff: "Kind regards,\n\n[Your Name]",
+      },
+      Friendly: {
+        greeting: (n) => (n ? `Hi ${n},` : "Hi there,"),
+        opener: "Hope you're doing well! Just wanted to reach out about the following:",
+        closer: "Let me know what you think whenever you get a chance — happy to chat more about it!",
+        signoff: "Thanks so much,\n\n[Your Name]",
+      },
+      Persuasive: {
+        greeting: (n) => (n ? `Hello ${n},` : "Hello,"),
+        opener: "I'm reaching out because I believe this is something genuinely worth your attention:",
+        closer: "I'd love to hear your thoughts — even a quick reply would mean a lot, and I'm confident this is worth exploring together.",
+        signoff: "Warm regards,\n\n[Your Name]",
+      },
     };
-    const selected = STRICT_TONE_MAP[tone];
-    if (!selected) return;
-    setOutput(selected);
+
+    const f = toneFrames[tone];
+    const email = `Subject: ${subject}\n\n${f.greeting(recipientName)}\n\n${f.opener}\n\n${userContext}\n\n${f.closer}\n\n${f.signoff}`;
+    setOutput(email);
   };
 
   const handleClear = () => {
